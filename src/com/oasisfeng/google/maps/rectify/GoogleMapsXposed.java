@@ -24,6 +24,13 @@ public class GoogleMapsXposed implements IXposedHookLoadPackage {
 	@Override public void handleLoadPackage(final LoadPackageParam loadpkg) throws Throwable {
 		final Class<?> LatLng;
 		Constructor<?> LatLng_ctor;
+		
+		if (loadpkg.packageName.equals("com.nianticproject.ingress") 
+				|| loadpkg.packageName.equals("com.google.android.gms")){
+			Log.d(TAG, "Skip ingress/gms package");
+			return;
+		}
+		
 		final long start = DEBUG ? Debug.threadCpuTimeNanos() : 0;
 		try {
 			LatLng = Class.forName("com.google.android.gms.maps.model.LatLng", false, loadpkg.classLoader);
